@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="jenkins-poc-flow" doc:id="bdac2853-24a7-42b5-8178-69d788a710bb" >
+		<http:listener doc:name="Listener" doc:id="ba7fd909-887f-485b-9f86-14447a561cae" config-ref="http-listener-configuration" path="/jenkins"/>
+		<logger level="INFO" doc:name="START" doc:id="334db792-1e87-46df-b299-c8630e508a24" message="jenkins -poc flow started"/>
+		<ee:transform doc:name="preparing payload" doc:id="42eded19-4f74-4fee-a295-0b41df8f52b7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"The jenkins pipeline worked successfully"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="END" doc:id="faa54700-9e4e-4fde-abe2-b0e83b2858b4" message="#[payload]"/>
+	</flow>
+</mule>
